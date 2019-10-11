@@ -1,0 +1,29 @@
+{% extends "welcome/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %} <link href="{% static "users/login.css" %}" rel="stylesheet" id="bootstrap-css">
+<div class = "reg-pad">
+<div class="content-section">
+  <form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">
+        Join Today
+      </legend>
+      {{form|crispy}}
+    </fieldset>
+    <div class="form-group">
+      <button class="btn btn-outline-info" type="submit">
+        Sign Up
+      </button>
+    </div>
+  </form>
+  <div class="border-top pt-3">
+    <small class="text-muted">
+      Already have an account? <a class="ml-2" href="/login/">Sign In</a>
+    </small>
+  </div>
+</div>
+</div>
+
+{% endblock content %}

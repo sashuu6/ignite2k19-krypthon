@@ -1,0 +1,44 @@
+{% extends "welcome/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %} <link href="{% static "users/login.css" %}" rel="stylesheet" id="bootstrap-css">
+{% load static %} <link href="{% static "users/view_bookings.js" %}" rel="stylesheet" id="bootstrap-css">
+
+
+<table class="table table-condensed table-hover">
+	<thead>
+		<tr>
+			<th class="tabco2" >Booked By </th>
+			<th class="tabco3"> Phone Number </th>
+			<th class="tabco4" > License Used </th>
+			<th class="tabco5" > Vehicle Plate </th>
+			<th class="tabco6" > Vehicle Type </th>
+			<th class="tabco7" > City </th>
+			<th class="tabco8" > Checkin Time </th>
+			<th class="tabco8"> Delete </th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for x in Booking %}
+			{% if x.driver_name == user.username %}
+				<tr class = "row_format">
+					<td class = "tabco2">{{ x.driver_name }}</td>
+					<td class = "tabco3">{{ x.phone_no }}</td>
+			        <td class = "tabco4">{{ x.driver_license }}</td>
+			        <td class = "tabco5">{{ x.vehicle_number }}</td>
+			        <td class = "tabco6">{{ x.vehicle_size }}</td>
+			        <td class = "tabco7">{{ x.city }}</td>
+			        <td class = "tabco8">{{ x.checkin_time }}</td>
+			        <td class = "tabco8">
+			        	<form action="{% url 'remove_row' %}" method="post">
+			        		<input type="hidden" name="row_id" value="{{x.id}}"/>
+			        		{% csrf_token %}
+			        		<button type="submit" class="btn btn-primary">Delete</button>
+			        	</form>
+			        </td>
+				</tr>
+			{% endif %}
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock content %}
