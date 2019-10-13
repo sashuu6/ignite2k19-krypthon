@@ -1,0 +1,72 @@
+{% extends "welcome/base.html" %}
+{% block content %}
+<div class="text-center">
+  <h1 class="display-4 text-center font-weight-bolder">
+    Park Before Arriving<br>
+  </h1>
+  <h2>
+    <small class="text-muted">Now booking a parking near you is even easier</small>
+  </h2>
+</div>
+<div>
+  {% load static %} <img src="{% static "welcome/static-city-green.png" %}" class="d-block w-100" alt="...">
+</div>
+
+{% load static %} <link href="{% static "welcome/base.css" %}" rel="stylesheet" id="bootstrap-css">
+
+
+<div id="grad1">
+  <div class="container">
+    <h1 class="abc top-justify">Book your parking now and save up to 70%<br></h1>
+    <br>
+    <br>
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'booking' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Start booking now</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Start booking now</a>
+      {% endif %}
+  </div>
+</div>
+
+
+<div class="reduce-margin-top">
+<footer class="section footer-classic context-dark bg-image" style="background: #2d3246;">
+        <div class="container">
+          <div class="row row-30">
+            <div class="col-md-4 col-xl-5">
+              <div class="pr-xl-4"><a class="brand" href="index.html"><img class="brand-logo-light" src="#" alt="" width="140" height="37" srcset="#"></a>
+                <p>We are making the life in busy cities easier by providing an easy access to the parkings near you. Now you don't have to be worried about where to park?</p>
+              </div>
+            </div>
+            <div class="col-md-4 col-xl-3">
+              <h5>Contacts</h5>
+              <dl class="contact-list">
+                <dt>Address:</dt>
+                <dd>NITK Hostels, National Institute of Technology, Surathkal, Karnataka</dd>
+              </dl>
+              <dl class="contact-list">
+                <dt>e-mail:</dt>
+                <dd><a href="mailto:#">rahulgupta1997.rg50@gmail.com</a></dd>
+              </dl>
+              <dl class="contact-list">
+                <dt>Phones:</dt>
+                <dd><a href="tel:#">+91 9729864075</a> <span>or</span> <a href="tel:#">+91 8397050755</a>
+                </dd>
+              </dl>
+            </div>
+            <div class="col-md-4 col-xl-4">
+              <h5>Links</h5>
+              <ul class="nav-list">
+                <li><a href="/about/">About</a></li>
+                <li><a href="/pricing/">Pricing</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row no-gutters social-container">
+          <div class="col"><a class="social-inner" target="_blank" href="https://facebook.com"><span class="icon mdi mdi-facebook"></span><span>Facebook</span></a></div>
+          <div class="col"><a class="social-inner" target="_blank" href="https://www.instagram.com/"><span class="icon mdi mdi-instagram"></span><span>instagram</span></a></div>
+          <div class="col"><a class="social-inner" target="_blank" href="https://twitter.com"><span class="icon mdi mdi-twitter"></span><span>twitter</span></a></div>
+        </div>
+</footer>
+{% endblock content %}

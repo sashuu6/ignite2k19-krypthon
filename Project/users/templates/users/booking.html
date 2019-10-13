@@ -1,0 +1,47 @@
+{% extends "welcome/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %} <link href="{% static "users/login.css" %}" rel="stylesheet" id="bootstrap-css">
+<div class = "book-pad" style="background-image: url('{% static "users/map1.jpg"%}')">
+<p style="color: white; font-size: 40px; text-align: center; font-weight: bold;">Booking Form</p>
+
+<form action="{% url 'booking' %}" method="post">
+	  {% csrf_token %}
+	  <br>
+	  <br>
+	        {{ form.driver_license }}
+	  <br>
+	        {{ form.vehicle_number }}    
+	  <br>        
+	  		{{ form.phone_no }}
+	  <br>
+
+	  <!-- <br>        
+	  		{{ form.checkin_time }}
+	  <br> -->
+	  
+	  <div style = "color: white; font-size: 18px">       
+	  		<p style = "color: white;">Select the size : {{ form.vehicle_size }} </p>
+	  </div>
+	  <div style = "color: white; font-size: 18px">       
+	  		<p style = "color: white">Select the city :{{ form.city }} </p>
+	  </div>
+	  <br>
+	  <div style = "color: white; font-size: 18px">       
+			<p style = "color: white">Select the Floor :{{ form.floor }} </p>
+	</div>
+	<br>
+	<div style = "color: white; font-size: 18px">       
+			<p style = "color: white">Select the Block :{{ form.block }} </p>
+	</div>
+	<br>
+	<div style = "color: white; font-size: 18px">       
+			<p style = "color: white">Select the Space :{{ form.space }} </p>
+	</div>
+	<br>
+	  <div class="form-group">
+	        <button type="submit" class="btn btn-primary btn-block"> Book Now  </button>
+	  </div>                                                             
+</form>
+</div>
+{% endblock content %}
