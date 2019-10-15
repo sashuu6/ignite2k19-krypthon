@@ -8,8 +8,7 @@
 <table class="table table-condensed table-hover">
 	<thead>
 		<tr>
-			<!-- <th class="tabco2" >Booked By </th>
-			<th class="tabco3"> Phone Number </th> -->
+			<th class="tabco4" > User name </th>
 			<th class="tabco4" > Feedback </th>
 		</tr>
 	</thead>
@@ -17,10 +16,8 @@
 		{% for x in Feedback %}
 			
 				<tr class = "row_format">
-					<!-- <td class = "tabco2">{{ x.driver_name }}</td>
-					<td class = "tabco3">{{ x.phone_no }}</td> -->
+					<td class = "tabco4">{{ x.user_name }}</td>
 			        <td class = "tabco4">{{ x.user_feedback }}</td>
-			        
 				</tr>
 			
 		{% endfor %}

@@ -8,6 +8,7 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, BookingF
 from django.http import Http404
 import datetime
 import logging
+from django.utils import timezone
 
 def register(request,*args,**kwargs):
     if request.method == 'POST':
@@ -45,7 +46,7 @@ def profile(request):
 	return render(request, 'users/profile.html',context)
 
 
-from django.utils import timezone
+
  
 @login_required
 def booking(request):
@@ -54,6 +55,7 @@ def booking(request):
 		if form.is_valid():
 			current_user = request.user
 			driver_name = current_user.username
+			#getting datas from the form fields
 			driver_license = request.POST["driver_license"]
 			vehicle_number = request.POST["vehicle_number"]
 			phone_no = request.POST["phone_no"]
@@ -62,10 +64,8 @@ def booking(request):
 			floor = request.POST["floor"]
 			block = request.POST["block"]
 			space = request.POST["space"]
+			#adding new record to the Booking model
 			saviour = Booking(floor=floor,block=block,space=space,driver_name = driver_name,driver_license = driver_license, vehicle_number = vehicle_number, phone_no = phone_no, vehicle_size = vehicle_size, city = city)
-			#saviour = Feedback(user_name = driver_name,user_feedback = vehicle_number)
-			#saviour = PayCards(user_name = driver_name,card_no = driver_name,card_hold_name=driver_name,card_exp_date=driver_name,postal_code=driver_name)
-			
 			saviour.save()
 			messages.success(request, f'Payment was successful!')
 			form = PayCardRegisterForm(request.POST)
@@ -78,18 +78,17 @@ def booking(request):
 
 @login_required
 def feedback(request):
+	#handling feedback form request
 	if request.method == 'POST':
 		form = FeedbackForm(request.POST)
 		if form.is_valid():
 			current_user = request.user
 			driver_name = current_user.username
 			driver_license = request.POST["user_feedback"]
-			
-			#saviour = Booking(driver_name = driver_name,driver_license = driver_license, vehicle_number = vehicle_number, phone_no = phone_no, vehicle_size = vehicle_size, city = city)
+			#adding new record to the Feedback model
 			saviour = Feedback(user_name = driver_name,user_feedback = driver_license)
 			saviour.save()
-			#messages.success(request, f'Payment was successful!')
-			
+			messages.success(request, f'Feedback was successful!')
 			return render(request, 'users/profile.html')
 	else:
 		form = FeedbackForm()
@@ -103,43 +102,42 @@ def view_bookings(request):
 
 @login_required
 def view_feedbacks(request):
-	#form = RemoveRow(request.POST)
+	#Rendering the users/view_feedbacks.html
 	return render(request, 'users/view_feedbacks.html', {'Feedback' : Feedback.objects.all()})
 
 
 @login_required
 def payment(request):
 	
+	#Handling the payment POST request
 	if request.method == 'POST':
-		# driver_name="test3"
-		# saviour = PayCards(user_name = driver_name,card_no = driver_name,card_hold_name=driver_name,card_exp_date=driver_name,postal_code=driver_name)
-		# saviour.save()
-		#logger.debug('debug message')
 		form = PayCardRegisterForm(request.POST)
-		
-			
 		if form.is_valid():
 			current_user = request.user
 			user_name = current_user.username
+			#getting details from the submitted form
 			save_card = request.POST.get("save_card")
 			card_no = request.POST["card_no"]
 			card_hold_name = request.POST["card_hold_name"]
 			card_exp_date = request.POST["card_exp_date"]
 			card_cvv = request.POST["card_cvv"]
 			postal_code = request.POST["postal_code"]
-			
-			if save_card:
+			#checking if card size is less than or equal to 5
+			if save_card and PayCards.objects.all().filter(user_name=request.user.username).count() < 5:
 				saviour = PayCards(user_name = user_name,card_no = card_no,card_hold_name=card_hold_name,card_exp_date=card_exp_date,postal_code=postal_code)
 				saviour.save()
-			messages.success(request, f'Payment was successful')
+				messages.success(request, f'Payment was successful')
+			elif PayCards.objects.all().filter(user_name=request.user.username).count() >= 5:
+				messages.success(request, f'Payment was successful, but no more cards can be saved')
+			
+				
+			
 			return redirect('welcome-home')
-		# else:
-		# 	messages.success(request, f'Payment was successful')
-		# 	return redirect('welcome-home')
-			# return render(request, 'users/view_feedbacks.html', {'Feedback' : PayCards.objects.all()})
 		
 	else:
+		#getting the form object
 		form = PayCardRegisterForm()
+		#Rendering the users/payment.html
 		return render(request, 'users/payment.html',{'Cards' : PayCards.objects.all().filter(user_name=request.user.username), 'form': form})
 
 
@@ -148,34 +146,34 @@ def pricing(request):
 	return render(request, 'users/pricing.html')
 
 
-
+#function that is used to remove a single row and return back
 def remove_row(request):
 	if request.method == 'POST':
 		form = RemoveRow(request.POST)
 		if form.is_valid():
 			x = form.cleaned_data.get("row_id")
 			obj = get_object_or_404(Booking, pk = x)
-			#obj.delete()
-			obj.checkin_time =  datetime.datetime.now()
-			#obj.phone_no = "9645423461"
+			#updating the checkout time of the record
+			obj.checkout_time =  datetime.datetime.now()
+			obj.active_status=0;
 			obj.save()
-			#Booking.objects.filter(pk=x).update(checkout_time=timezone.now)
 			return redirect('/view_bookings/')
 	else:
 		form = RemoveRow()
 		return render(request, 'users/view_bookings.html', {'form': form})
 
+#function that is used to select a single card from the cards list
 def select_card(request):
+	#handling post request if available
 	if request.method == 'POST':
-		# form = PayCardRegisterForm(request.POST)
-		# if form.is_valid():
-			card_no1 = request.POST.get("card_no")
-			form = PayCardRegisterForm()
-			return render(request, 'users/payment.html',{'Cards' : PayCards.objects.all().filter(user_name=request.user.username),
-			 'form': form,
-			 'selectedCard': PayCards.objects.all().filter(user_name=request.user.username).filter(card_no=card_no1)[0:1],
-			 })
+		card_no1 = request.POST.get("card_no")
+		form = PayCardRegisterForm()
+		return render(request, 'users/payment.html',{'Cards' : PayCards.objects.all().filter(user_name=request.user.username),
+			'form': form,
+			'selectedCard': PayCards.objects.all().filter(user_name=request.user.username).filter(card_no=card_no1)[0:1],
+			})
 	else:
+		#if post request is not available
 		form = PayCardRegisterForm()
 		return render(request, 'users/payment.html',{'Cards' : PayCards.objects.all().filter(user_name=request.user.username), 'form': form})
 

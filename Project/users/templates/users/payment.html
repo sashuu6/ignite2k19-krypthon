@@ -85,9 +85,10 @@
                     <hr>
                     {% if selectedCard.count > 0 %}
                         {% for xx in selectedCard %}
-                            {{ xx.card_no }}
+                            You have selected the card : {{ xx.card_no }}
                         {% endfor %}
                     {% endif %}
+
 
                     {% if Cards.count > 0 %}
                     <div class="mb-5 card bg-primary text-white" style="width: 100%;">
@@ -105,11 +106,9 @@
                                             <form style="display: inline" action="{% url 'select_card' %}" method="post">
                                                     {% csrf_token %}
                                                     <input type="hidden" name="card_no" value="{{x.card_no}}"/>
-                                                    
-                                                    
+                                                 
                                                     <button type="submit" class="btn btn-sm btn-primary">Use card</button>
-                                                      
-                                                    
+                                                     
                                             </form>
                                             
                                         </div> 
@@ -122,6 +121,7 @@
                             </ul>
                     </div>
                     {% endif %}
+                    {#  payments form #}
                     <form action="{% url 'payment' %}" method="post" novalidate="novalidate" class="needs-validation">
                             {% csrf_token %}
                         <div class="form-group text-center">
@@ -150,6 +150,7 @@
                         <div class="form-group">
                             <label for="cc-number" class="control-label mb-1">Card number</label>
                             <!-- <input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa" required="" pattern="[0-9]{16}"> -->
+                            {#  form elements - card name #}
                             {{ form.card_no }}
                             <span class="invalid-feedback">Enter a valid 16 digit card number</span>
                         </div>

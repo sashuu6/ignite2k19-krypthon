@@ -5,20 +5,17 @@
 <div class = "book-pad" style="background-image: url('{% static "users/map1.jpg"%}')">
 <p style="color: white; font-size: 40px; text-align: center; font-weight: bold;">Booking Form</p>
 
+{# forms where the booking details are included #}
 <form action="{% url 'booking' %}" method="post">
-	  {% csrf_token %}
-	  <br>
-	  <br>
+	{% csrf_token %}
+	<br>
+	<br>
 	        {{ form.driver_license }}
 	  <br>
 	        {{ form.vehicle_number }}    
 	  <br>        
 	  		{{ form.phone_no }}
 	  <br>
-
-	  <!-- <br>        
-	  		{{ form.checkin_time }}
-	  <br> -->
 	  
 	  <div style = "color: white; font-size: 18px">       
 	  		<p style = "color: white;">Select the size : {{ form.vehicle_size }} </p>
@@ -28,7 +25,7 @@
 	  </div>
 	  <br>
 	  <div style = "color: white; font-size: 18px">       
-			<p style = "color: white">Select the Floor :{{ form.floor }} </p>
+			<p style = "color: white">Select the Floor :{{ form.floor }} </p>  
 	</div>
 	<br>
 	<div style = "color: white; font-size: 18px">       

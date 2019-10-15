@@ -22,7 +22,7 @@ class ProfileUpdateForm(forms.ModelForm):
 		model = Profile
 		fields = ['image']
 
-
+#Form for booking new slot for parking
 class BookingForm(forms.Form):
 	VEHICLE_SIZE = [
 		('Personal vehicle','Personal vehicle'),
@@ -37,6 +37,7 @@ class BookingForm(forms.Form):
 		('Manipal', 'Manipal'),
 		('Chandigarh','Chandigarh')
 	]
+	#adding values for the FLOOR to provide options for spaces of car parking
 	FLOORS = [
 		('5', '5'),
 		('6', '6'),
@@ -44,6 +45,11 @@ class BookingForm(forms.Form):
 		('8', '8'),
 		('9', '9'),
 	]
+	#booking details includes the following extra details: 
+	# floors
+	# block
+	# spaces
+
 	driver_license = forms.CharField(widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
@@ -62,6 +68,7 @@ class BookingForm(forms.Form):
 				'text-color': 'white'
 			}
 		))
+	
 	floor = forms.CharField(label = 'Select the floor',widget=forms.Select(
 			choices = FLOORS,
 			attrs = {
@@ -92,8 +99,11 @@ class BookingForm(forms.Form):
 				'placeholder': 'Enter the vehicle number',
 			}
 		))
+
+#form for the feedback details
 class FeedbackForm(forms.Form):
 
+	#we are only taking the user feedback data with the post request
 	user_feedback = forms.CharField(widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
@@ -110,7 +120,16 @@ class RemoveRow(forms.Form):
 			}
 		))
 
+#form for the payment details so that thet can be saved in the MODEL
 class PayCardRegisterForm(forms.Form):
+	#card details includes the following : 
+	# card_no
+	# card_hold_name
+	# card_exp_date
+	# card_cvv
+	# postal_code
+	# save_card
+
 	card_no		=	forms.CharField(widget=forms.TextInput(
 			attrs={
 				'class': 'form-control',
@@ -146,3 +165,5 @@ class PayCardRegisterForm(forms.Form):
 			}
 		))
 	save_card = forms.BooleanField(label='Save Card?')
+	
+	

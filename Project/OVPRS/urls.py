@@ -17,13 +17,20 @@ urlpatterns = [
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name = 'users/password_reset_complete.html'),name = 'password_reset_complete'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='welcome/Boot.html'), name='logout'),
+    #to add a new booking to the system
     path('booking/',user_views.booking, name='booking'),
+    #view the booking that he/she has made
     path('view_bookings/',user_views.view_bookings, name = 'view_bookings'),
+    #this is the end point to view the feedbacks
     path('view_feedbacks/',user_views.view_feedbacks, name = 'view_feedbacks'),
+    #to get into the payment forms
     path('payment/',user_views.payment, name = 'payment'),
     path('pricing/',user_views.pricing, name = 'pricing'),
+    #end point to provide feedbacks
     path('feedback/',user_views.feedback, name = 'feedback'),
+    #when a row is to be removed
     path('remove_row/',user_views.remove_row, name = 'remove_row'),
+    #invoked when a card is to be selected
     path('select_card/',user_views.select_card, name = 'select_card')
 ]
 

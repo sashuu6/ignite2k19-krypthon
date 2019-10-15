@@ -45,20 +45,14 @@
 </div>
 <div class="container">
   <div class="card-deck mb-3 text-center">
-    <!-- <div class="card mb-8 shadow-sm">
-        <div>Name <input type="text" value="Sashwat K" disabled /></div>
-    <textarea name="" id="" cols="30" rows="10"></textarea>
-    <br>
-    <div class="btn btn-small btn-primary">Submit</div>
-    </div> -->
+    {#  feedback form #}
     <form action="{% url 'feedback' %}" method="post">
         {% csrf_token %}
         <br>
         <br>
-              {{ form.user_feedback }}
-       
+            {{ form.user_feedback }}
         <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block"> Book Now  </button>
+              <button type="submit" class="btn btn-primary btn-block"> Submit Now  </button>
         </div>                                                             
     </form>
 
